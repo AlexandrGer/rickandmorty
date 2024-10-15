@@ -4,7 +4,7 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="bg-black max-w-[120.00rem] h-full py-5 px-2 my-0 m-auto">
+    <div className="bg-black max-w-[120.00rem] h-full py-5 px-2 my-0 m-auto text-white">
       <Header />
       <CharactersList />
     </div>

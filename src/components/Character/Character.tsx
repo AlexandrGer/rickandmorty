@@ -1,4 +1,4 @@
-import ICharacter from "../../interface/Character";
+import ICharacter from "../../interface/ICharacter";
 import useWindoWidth from "../../hooks/windowWidth";
 
 type CharacterProp = {

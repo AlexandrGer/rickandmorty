@@ -1,16 +1,22 @@
 import { useState, useEffect, useCallback } from "react";
 import Character from "../Character/Character";
-import ICharacter from "../../interface/Character";
+import ICharacter from "../../interface/ICharacter";
 import SearchForm from "../SearcForm/SearchForm";
+import IEpisode from "../../interface/IEpisode";
+import Episode from "../Episode/Episode";
 
 export default function CharactersList() {
   const [data, setData] = useState<any>();
+  const [error, setError] = useState<boolean>(false);
   const [characters, setCharacters] = useState<ICharacter[]>([]);
-  const [episode, setEpisode] = useState<any[]>([]);
+  const [episodes, setEpisodes] = useState<IEpisode[]>([]);
   const [pageSearch, setPageSearch] = useState(1);
 
   const getCharacters = useCallback(
     async (searchQuery: any, page = pageSearch) => {
+      setError(false);
+      setCharacters([]);
+      setEpisodes([]);
       const params = new URLSearchParams(searchQuery);
       params.append("page", `${page}`);
       params.toString();
@@ -19,26 +25,28 @@ export default function CharactersList() {
           const response = await fetch(
             `https://rickandmortyapi.com/api/episode/?${params}`
           );
-          setCharacters([]);
+          if (response.status === 404) {
+            setError(true);
+          }
           return response.json().then((res) => {
-            setEpisode(res.results);
+            setEpisodes(res.results);
           });
         } catch (err) {
-          setEpisode([]);
-          console.log(err);
+          setError(true);
         }
       } else {
         try {
           const response = await fetch(
             `https://rickandmortyapi.com/api/character/?${params}`
           );
-          setEpisode([]);
+          if (response.status === 404) {
+            setError(true);
+          }
           return response.json().then((res) => {
             setData(res);
           });
         } catch (err) {
-          setCharacters([]);
-          console.log(err);
+          setError(true);
         }
       }
     },
@@ -68,22 +76,29 @@ export default function CharactersList() {
         setCharacters={setCharacters}
         setPageSearch={setPageSearch}
       />
-      <ul className="flex flex-col items-center gap-5 md:flex-row flex-wrap justify-center lg:w-[62.50rem] my-0 m-auto xl:w-[78.13rem]">
-        {episode && episode.length > 0 ? (
-          <>
-            {episode.map((character) => (
-              <Character key={character.id} character={character} />
-            ))}
-          </>
-        ) : (
-          <>
-            {characters &&
-              characters.map((character) => (
+      {error ? (
+        <p className="text-center">
+          Кажется по вашему запросу ничего не найдено, попробуйте изменить
+          фильтры...
+        </p>
+      ) : (
+        <ul className="flex flex-col items-center gap-5 md:flex-row flex-wrap justify-center lg:w-[62.50rem] my-0 m-auto xl:w-[78.13rem]">
+          {episodes && episodes.length > 0 ? (
+            <>
+              {episodes.map((episode) => (
+                <Episode key={episode.id} episodes={episode} />
+              ))}
+            </>
+          ) : (
+            <>
+              {characters.map((character) => (
                 <Character key={character.id} character={character} />
               ))}
-          </>
-        )}
-      </ul>
+            </>
+          )}
+        </ul>
+      )}
+
       {data?.info?.next && (
         <button
           className="text-white p-2 border-solid border-2 rounded-2xl border-white block m-auto mt-5 mb-0"

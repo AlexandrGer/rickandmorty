@@ -1,9 +1,11 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Dispatch, SetStateAction } from "react";
+import ICharacter from "../../interface/ICharacter";
+import ISearchQuery from "../../interface/ISearchQuery";
 
 type Props = {
-  getCharacters: any;
-  setCharacters: any;
-  setPageSearch: any;
+  getCharacters: (searchQuery: ISearchQuery) => Promise<void>;
+  setCharacters: Dispatch<SetStateAction<ICharacter[]>>;
+  setPageSearch: Dispatch<SetStateAction<number>>;
 };
 
 export default function SearchForm({
@@ -42,20 +44,25 @@ export default function SearchForm({
   );
 
   useEffect(() => {
-    setCharacters([]);
-    setPageSearch(1);
+    const handler = setTimeout(() => {
+      setCharacters([]);
+      setPageSearch(1);
+      getCharacters(searchQuery);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
   }, [
-    setCharacters,
-    setPageSearch,
     episodeInput,
     nameInput,
     speciesInput,
     statusInput,
+    searchQuery,
+    setCharacters,
+    setPageSearch,
+    getCharacters,
   ]);
-
-  useEffect(() => {
-    getCharacters(searchQuery);
-  }, [getCharacters, searchQuery]);
 
   return (
     <form className="my-0 m-auto text-white flex flex-col gap-5 pb-8 lg:w-[62.50rem] ">
