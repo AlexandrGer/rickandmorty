@@ -44,25 +44,26 @@ export default function SearchForm({
   );
 
   useEffect(() => {
+    setCharacters([]);
+    setPageSearch(1);
+  }, [
+    episodeInput,
+    nameInput,
+    speciesInput,
+    statusInput,
+    setCharacters,
+    setPageSearch,
+  ]);
+
+  useEffect(() => {
     const handler = setTimeout(() => {
-      setCharacters([]);
-      setPageSearch(1);
       getCharacters(searchQuery);
     }, 300);
 
     return () => {
       clearTimeout(handler);
     };
-  }, [
-    episodeInput,
-    nameInput,
-    speciesInput,
-    statusInput,
-    searchQuery,
-    setCharacters,
-    setPageSearch,
-    getCharacters,
-  ]);
+  }, [getCharacters, searchQuery]);
 
   return (
     <form className="my-0 m-auto text-white flex flex-col gap-5 pb-8 lg:w-[62.50rem] ">

@@ -15,9 +15,12 @@ export default function CharactersList() {
   const getCharacters = useCallback(
     async (searchQuery: any, page = pageSearch) => {
       setError(false);
-      setCharacters([]);
-      setEpisodes([]);
-      const params = new URLSearchParams(searchQuery);
+      const queryParams: Record<string, string> = {};
+      queryParams.name = searchQuery.name;
+      queryParams.status = searchQuery.status;
+      queryParams.species = searchQuery.species;
+      queryParams.episode = searchQuery.episode;
+      const params = new URLSearchParams(queryParams);
       params.append("page", `${page}`);
       params.toString();
       if (searchQuery.episode !== "") {
@@ -25,6 +28,7 @@ export default function CharactersList() {
           const response = await fetch(
             `https://rickandmortyapi.com/api/episode/?${params}`
           );
+          setCharacters([]);
           if (response.status === 404) {
             setError(true);
           }
@@ -39,6 +43,7 @@ export default function CharactersList() {
           const response = await fetch(
             `https://rickandmortyapi.com/api/character/?${params}`
           );
+          setEpisodes([]);
           if (response.status === 404) {
             setError(true);
           }
@@ -82,24 +87,38 @@ export default function CharactersList() {
           фильтры...
         </p>
       ) : (
-        <ul className="flex flex-col items-center gap-5 md:flex-row flex-wrap justify-center lg:w-[62.50rem] my-0 m-auto xl:w-[78.13rem]">
+        <>
           {episodes && episodes.length > 0 ? (
             <>
-              {episodes.map((episode) => (
-                <Episode key={episode.id} episodes={episode} />
-              ))}
+              <p className="font-medium text-2xl mt-0 m-auto mb-3 max-w-[78.13rem]">
+                Найдено:
+              </p>
+              <span className="block mt-0 m-auto mb-3 max-w-[78.13rem]">
+                Обратите внимание, что при поиске эпизодов, фильтры "Имя?" и
+                "Раса" работать не будут
+              </span>
+              <ul className="my-0 m-auto w-full flex flex-col items-center gap-5 xl:w-[78.13rem]">
+                {episodes.map((episode) => (
+                  <Episode key={episode.id} episodes={episode} />
+                ))}
+              </ul>
             </>
           ) : (
             <>
-              {characters.map((character) => (
-                <Character key={character.id} character={character} />
-              ))}
+              <p className="font-medium text-2xl mt-0 m-auto mb-3 max-w-[78.13rem]">
+                Найдено:
+              </p>
+              <ul className="flex flex-col items-center gap-5 md:flex-row flex-wrap justify-center lg:w-[62.50rem] my-0 m-auto xl:w-[78.13rem]">
+                {characters.map((character) => (
+                  <Character key={character.id} character={character} />
+                ))}
+              </ul>
             </>
           )}
-        </ul>
+        </>
       )}
 
-      {data?.info?.next && (
+      {data?.info?.next && characters.length > 0 && (
         <button
           className="text-white p-2 border-solid border-2 rounded-2xl border-white block m-auto mt-5 mb-0"
           onClick={handleLoadMore}
