@@ -5,4 +5,5 @@ export default interface ICharacter {
   species: string;
   gender: string;
   image: string;
+  type: string;
 }
