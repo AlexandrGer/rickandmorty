@@ -18,9 +18,12 @@ export default function Episode({ episodes }: EpisodeProp) {
 
   const fetchCharactersData = useCallback(async () => {
     try {
-      const responses = await Promise.all(
-        characters.map((url) => fetch(url).then((res) => res.json()))
-      );
+      const responses = [];
+      for (const url of characters) {
+        const res = await fetch(url);
+        responses.push(await res.json());
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
       setData(responses);
     } catch (err) {
       console.error(err);

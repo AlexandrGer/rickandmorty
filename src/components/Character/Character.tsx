@@ -52,7 +52,7 @@ export default function Character({ character, episodes }: CharacterProp) {
                 <>
                   <p>{name}</p>
                   <p>{status}</p>
-                  <p>{species}</p>
+                  <p className="break-all">{species}</p>
                   {windowWidth > 424 && <p>{gender}</p>}
                   {windowWidth > 539 && <p>{type ? type : "unknown"}</p>}
                 </>
