@@ -103,6 +103,14 @@ export default function SearchForm({
               <option value="Alien">Alien</option>
               <option value="Humanoid">Humanoid</option>
               <option value="Robot">Robot</option>
+              <option value="Cronenberg">Cronenberg</option>
+              <option value="Animal">Animal</option>
+              <option value="Disease">Disease</option>
+              <option value="Poopybutthole">Poopybutthole</option>
+              <option value="unknown">Unknown</option>
+              <option value="Mythological Creature">
+                Mythological Creature
+              </option>
             </select>
           </div>
         </div>

@@ -94,7 +94,7 @@ export default function CharactersList() {
                 Найдено:
               </p>
               <span className="block mt-0 m-auto mb-3 max-w-[78.13rem]">
-                Обратите внимание, что при поиске эпизодов, фильтры "Имя?" и
+                Обратите внимание, что при поиске эпизодов, фильтры "Жив?" и
                 "Раса" работать не будут
               </span>
               <ul className="my-0 m-auto w-full flex flex-col items-center gap-5 xl:w-[78.13rem]">
