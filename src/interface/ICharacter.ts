@@ -6,4 +6,9 @@ export default interface ICharacter {
   gender: string;
   image: string;
   type: string;
+  location: {
+    name: string;
+    url: string;
+  };
+  episode: string[];
 }
