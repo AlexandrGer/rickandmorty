@@ -74,7 +74,7 @@ export default function Character({ character, episodes }: CharacterProp) {
             <div className="grid items-center grid-cols-[100px_65px_80px] gap-[0.63rem] text-center m:grid-cols-[100px_65px_80px_70px] sm:grid-cols-[100px_65px_80px_70px_100px]">
               <p>{name}</p>
               <p>{status}</p>
-              <p>{species}</p>
+              <p className="break-all">{species}</p>
               {windowWidth > 424 && <p>{gender}</p>}
               {windowWidth > 539 && <p>{type ? type : "unknown"}</p>}
             </div>
